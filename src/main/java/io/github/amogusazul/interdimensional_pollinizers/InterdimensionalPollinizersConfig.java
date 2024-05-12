@@ -17,7 +17,7 @@ public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 	@IntegerRange(min=0, max=100)
 	public final TrackedValue<Integer> pollinizers_percentage = this.value(50);
 
-	@Comment("Which seeds would pollinizers spawn with")
+	@Comment("Which seeds would pollinizers will spawn with")
 	@SerializedName("seeds")
 
 	public final TrackedValue<ValueList<String>> seeds = this.list("",

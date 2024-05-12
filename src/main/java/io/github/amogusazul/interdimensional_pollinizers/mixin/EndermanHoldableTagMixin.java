@@ -1,24 +1,28 @@
 package io.github.amogusazul.interdimensional_pollinizers.mixin;
 
-import io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizers;
+
+import io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizersConfig;
 import net.minecraft.block.Block;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.block.BlockState;
 import net.minecraft.tag.TagKey;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(BlockTags.class)
-public abstract class EndermanHoldableTagMixin {
+@Mixin(targets = "net.minecraft.entity.mob.EndermanEntity$PickUpBlockGoal")
+public class EndermanHoldableTagMixin {
 
-	@Shadow
-	private static TagKey<Block> register(String id) {
-		return TagKey.of(Registry.BLOCK_KEY, new Identifier(InterdimensionalPollinizers.MOD_ID, id));
+	@Redirect(
+		method = "tick",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/tag/TagKey;)Z")
+	)
+	private boolean BlockstateInConfig(BlockState instance, TagKey<Block> tagKey) {
+		return InterdimensionalPollinizersConfig.INSTANCE.seeds.value().contains(
+			Registry.BLOCK.getId(instance.getBlock())
+				.toString());
 	}
 
-	@Unique
-	private static final TagKey<Block> ENDERMAN_HOLDABLE = register("enderman_holdable");
 
 }

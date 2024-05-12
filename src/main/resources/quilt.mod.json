@@ -8,7 +8,8 @@
             "name": "Interdimensional Pollinizers",
             "description": "Now Endermen can appear with any dimension's plant \"seed\".",
             "contributors": {
-                "AmogusAzul": "Owner"
+                "AmogusAzul": "Owner",
+								"Consulter" : "supersaiyansubtlety"
 
             },
             "contact": {},
@@ -17,8 +18,9 @@
         },
         "intermediate_mappings": "net.fabricmc:intermediary",
         "entrypoints": {
-            "init": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizers"
-        },
+            "init": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizers",
+						"init_client": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizersClient"
+				},
         "depends": [
             {
                 "id": "quilt_loader",
