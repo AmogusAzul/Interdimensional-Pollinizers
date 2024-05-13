@@ -18,8 +18,7 @@
         },
         "intermediate_mappings": "net.fabricmc:intermediary",
         "entrypoints": {
-            "init": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizers",
-						"init_client": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizersClient"
+            "init": "io.github.amogusazul.interdimensional_pollinizers.InterdimensionalPollinizers"
 				},
         "depends": [
             {

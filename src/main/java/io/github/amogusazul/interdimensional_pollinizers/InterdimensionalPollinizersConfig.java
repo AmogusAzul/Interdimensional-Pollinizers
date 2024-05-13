@@ -1,5 +1,12 @@
 package io.github.amogusazul.interdimensional_pollinizers;
 
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import net.minecraft.block.Block;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Holder;
+import net.minecraft.util.HolderSet;
+import net.minecraft.util.Identifier;
 import org.quiltmc.config.api.ReflectiveConfig;
 import org.quiltmc.config.api.annotations.Comment;
 import org.quiltmc.config.api.annotations.IntegerRange;
@@ -7,6 +14,8 @@ import org.quiltmc.config.api.annotations.SerializedName;
 import org.quiltmc.config.api.values.TrackedValue;
 import org.quiltmc.config.api.values.ValueList;
 import org.quiltmc.loader.api.config.v2.QuiltConfig;
+
+import net.minecraft.util.registry.Registry;
 
 public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 	public static final InterdimensionalPollinizersConfig INSTANCE = QuiltConfig.create(
@@ -21,65 +30,52 @@ public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 	@SerializedName("seeds")
 
 	public final TrackedValue<ValueList<String>> seeds = this.list("",
-		"minecraft:oak_sapling",
-		"minecraft:spruce_sapling",
-		"minecraft:birch_sapling",
-		"minecraft:jungle_sapling",
-		"minecraft:acacia_sapling",
-		"minecraft:dark_oak_sapling",
-		"minecraft:mangrove_propagule",
 		"minecraft:grass",
 		"minecraft:fern",
-		"minecraft:azalea",
-		"minecraft:flowering_azalea",
-		"minecraft:seagrass",
 		"minecraft:sea_pickle",
-		"minecraft:dandelion",
-		"minecraft:poppy",
-		"minecraft:blue_orchid",
-		"minecraft:allium",
-		"minecraft:azure_bluet",
-		"minecraft:red_tulip",
-		"minecraft:orange_tulip",
-		"minecraft:white_tulip",
-		"minecraft:pink_tulip",
-		"minecraft:oxeye_daisy",
-		"minecraft:cornflower",
-		"minecraft:lily_of_the_valley",
-		"minecraft:spore_blossom",
-		"minecraft:brown_mushroom",
-		"minecraft:red_mushroom",
-		"minecraft:crimson_fungus",
-		"minecraft:warped_fungus",
-		"minecraft:crimson_roots",
-		"minecraft:warped_roots",
 		"minecraft:nether_sprouts",
 		"minecraft:weeping_vines",
 		"minecraft:twisting_vines",
 		"minecraft:sugar_cane",
 		"minecraft:kelp",
-		"minecraft:moss_carpet",
 		"minecraft:moss_block",
-		"minecraft:hanging_roots",
-		"minecraft:big_dripleaf",
 		"minecraft:small_dripleaf",
-		"minecraft:bamboo",
-		"minecraft:cactus",
+		"minecraft:bamboo_sapling",
 		"minecraft:glow_lichen",
 		"minecraft:lily_pad",
-		"minecraft:sunflower",
-		"minecraft:lilac",
-		"minecraft:rose_bush",
-		"minecraft:peony",
-		"minecraft:tall_grass",
-		"minecraft:large_fern",
 		"minecraft:wheat",
 		"minecraft:melon",
 		"minecraft:pumpkin",
-		"minecraft:nether_wart",
-		"minecraft:chorus_fruit",
-		"minecraft:beetroot",
-		"minecraft:carrot",
-		"minecraft:potato");
+		"minecraft:nether_wart"
+	);
+
+	@Comment("Here you can add any tag to the pollinizers' block pool")
+	@SerializedName("tag_seeds")
+	public final TrackedValue<ValueList<String>> tag_seeds = this.list("",
+		"minecraft:crops",
+		"minecraft:enderman_holdable",
+		"minecraft:flowers",
+		"minecraft:saplings",
+		"minecraft:underwater_bonemeals"
+	);
+
+	public static ObjectArraySet<String> flattened_seeds = new ObjectArraySet<>();
+
+	public void flattenTags(MinecraftServer server){
+		InterdimensionalPollinizers.LOGGER.debug("runs");
+
+		flattened_seeds = new ObjectArraySet<>();
+		flattened_seeds.addAll(INSTANCE.seeds.value());
+
+		for (String tag : INSTANCE.tag_seeds.value()){
+
+			TagKey<Block> tagKey = TagKey.of(Registry.BLOCK_KEY, new Identifier(tag));
+			 HolderSet.NamedSet<Block> tags_blocks = Registry.BLOCK.getOrCreateTag(tagKey);
+
+			 for (Holder<Block> block : tags_blocks){
+				 flattened_seeds.add(Registry.BLOCK.getId(block.value()).toString());
+			 }
+		}
+	}
 
 }
