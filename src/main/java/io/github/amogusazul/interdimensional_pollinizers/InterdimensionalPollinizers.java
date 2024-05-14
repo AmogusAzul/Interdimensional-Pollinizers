@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import static org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents.READY;
 
-public class InterdimensionalPollinizers implements ModInitializer {
+public class  InterdimensionalPollinizers implements ModInitializer {
 	public static final String MOD_ID = "interdimensional_pollinizers";
     public static final Logger LOGGER = LoggerFactory.getLogger("Interdimensional Pollinizers");
 

@@ -30,6 +30,7 @@ public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 	@SerializedName("seeds")
 
 	public final TrackedValue<ValueList<String>> seeds = this.list("",
+		"minecraft:chorus_flower",
 		"minecraft:grass",
 		"minecraft:fern",
 		"minecraft:sea_pickle",
@@ -40,7 +41,7 @@ public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 		"minecraft:kelp",
 		"minecraft:moss_block",
 		"minecraft:small_dripleaf",
-		"minecraft:bamboo_sapling",
+		"minecraft:bamboo",
 		"minecraft:glow_lichen",
 		"minecraft:lily_pad",
 		"minecraft:wheat",
@@ -70,6 +71,8 @@ public class InterdimensionalPollinizersConfig extends ReflectiveConfig {
 		for (String tag : INSTANCE.tag_seeds.value()){
 
 			TagKey<Block> tagKey = TagKey.of(Registry.BLOCK_KEY, new Identifier(tag));
+
+
 			 HolderSet.NamedSet<Block> tags_blocks = Registry.BLOCK.getOrCreateTag(tagKey);
 
 			 for (Holder<Block> block : tags_blocks){
