@@ -52,7 +52,8 @@ public abstract class EndermanPollinizersMixin extends MobEntityMixin {
 		if (block instanceof TallPlantBlock){
 			return block.getDefaultState().with(Properties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER);
 		}
-		if (block.getDefaultState().isIn(BlockTags.CROPS)){
+		if (block.getDefaultState().getProperties().contains(Properties.AGE_7)){
+
 			return block.getDefaultState().with(Properties.AGE_7, 7);
 		}
 		if (block == Blocks.NETHER_WART){
